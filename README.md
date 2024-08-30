@@ -19,5 +19,17 @@ to check everthing is done perfectly run test application by following command i
 streamlit hello
 ```
 
+### Usage
+You can run the ChatBOT.py app with this command
+```
+streamlit run ChatBot.py
+```
+it will start the Streamlit server on 
+`http://localhost:8501`
+
+Note: above run commands will open a new tab in the default browser
+
 ## Inspiration
 - GeekForGeeks: [Simple Chatbot application using Python, GoogleAPIKey](https://www.geeksforgeeks.org/simple-chatbot-application-using-python-googleapikey/)
+
+- LLM Chat app: [Streamlit's LLM chat app tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)
