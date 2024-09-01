@@ -37,8 +37,8 @@ Note: above run commands will open a new tab in the default browser
 
 We're incredibly grateful for the contributions of:
 
-* **[Konaad](https://github.com/smeet05)** - [Brief description of their contributions]
-* **[Srujan Wankhade](https://github.com/srujanwankhade)** - [Brief description of their contributions]
+* **[Konaad](https://github.com/smeet05)** <!-- [Brief description of their contributions] -->
+* **[Srujan Wankhade](https://github.com/srujanwankhade)** <!-- [Brief description of their contributions] -->
 
 Thanks for making this project amazing!
 
