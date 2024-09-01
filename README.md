@@ -33,7 +33,7 @@ Note: above run commands will open a new tab in the default browser
 
 ## Shoutout to Our Awesome Team!
 
-[Insert a cool graphic or image here, perhaps a team photo or a collaborative art piece.]
+<!-- [Insert a cool graphic or image here, perhaps a team photo or a collaborative art piece.] -->
 
 We're incredibly grateful for the contributions of:
 
