@@ -1,6 +1,7 @@
 # ChatBot
 Simple Web based ChatBot application written in Python using [Streamlit library](https://streamlit.io/).
 
+
 ## Getting started
 Clone this project locally with this command
 ```
@@ -28,6 +29,19 @@ it will start the Streamlit server on
 `http://localhost:8501`
 
 Note: above run commands will open a new tab in the default browser
+
+
+## Shoutout to Our Awesome Team!
+
+[Insert a cool graphic or image here, perhaps a team photo or a collaborative art piece.]
+
+We're incredibly grateful for the contributions of:
+
+* **[Konaad](https://github.com/smeet05)** - [Brief description of their contributions]
+* **[Srujan Wankhade](https://github.com/srujanwankhade)** - [Brief description of their contributions]
+
+Thanks for making this project amazing!
+
 
 ## Inspiration
 - GeekForGeeks: [Simple Chatbot application using Python, GoogleAPIKey](https://www.geeksforgeeks.org/simple-chatbot-application-using-python-googleapikey/)
