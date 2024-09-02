@@ -8,14 +8,14 @@ Clone this project locally with this command
 git clone https://github.com/NegativeZ3r0/ChatBot.git
 ```
 Or
-Download it's source code [here](https://github.com/NegativeZ3r0/ChatBot/archive/refs/heads/main.zip)
+Download its source code [here](https://github.com/NegativeZ3r0/ChatBot/archive/refs/heads/main.zip)
 
-### Requirments
-Install the required Streamlit packages. to install it run following command
+### Requirements
+Install the required Streamlit packages. To install it run following command.
 ```
 pip install streamlit
 ```
-to check everthing is done perfectly run test application by following command in the terminal
+To check everything is done perfectly run test application by following command in the terminal
 ```
 streamlit hello
 ```
