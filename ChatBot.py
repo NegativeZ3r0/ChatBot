@@ -12,9 +12,17 @@ pages: list = []
 def ChatBot() -> None:
     ''' Stuff you see on main page '''
     # not sure this. st.sidebar.title("")
-    st.header("✨ ChatBot", divider="red")
-    st.subheader(" Main Page ")
-    st.sidebar.slider("Temperature", 1, 5, key="size") # parameter that controls the randomness or creativity of the generated text.
+    st.header("✨ Dororo AI", divider="red")
+    st.subheader(" Ask Dororo AI anything ")
+
+    #Display a single-line text input widget.
+
+    prompt = st.chat_input("Message Dodoro...")
+    if prompt:
+        st.write(f"User has sent the following prompt: {prompt}")
+    
+
+    st.sidebar.slider("Level of Creativity", 1, 5, key="size") # parameter that controls the randomness or creativity of the generated text.
 
 def history() -> None:
     ''' Stuff you see on second page '''
