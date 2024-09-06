@@ -1,40 +1,67 @@
 import streamlit as st
+import json
 
 
+st.set_page_config(page_title="ChatBot", page_icon=":material/stars:", layout="centered", initial_sidebar_state="auto")
 # ToDo: st.logo("images/banner.jpg", icon_image="images/logo.png")
 # Help: https://docs.streamlit.io/develop/api-reference/media/st.logo
-
-st.set_page_config(page_title="ChatBot", page_icon=":material/stars:")
-# st.session_state: dict = {}
 pages: list = []
+if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-# each page has it's logic in the following fuctions.
+
+# Main page logic
 def ChatBot() -> None:
-    ''' Stuff you see on main page '''
-    # not sure this. st.sidebar.title("")
+    ''' Stuff you see on Main page '''
     st.header("✨ Dororo AI", divider="red")
     st.subheader(" Ask Dororo AI anything ")
 
-    #Display a single-line text input widget.
-
+    # Chat
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+    
     prompt = st.chat_input("Message Dodoro...")
     if prompt:
-        st.write(f"User has sent the following prompt: {prompt}")
-    
+        st.chat_message("user").markdown(prompt)
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        response = "response"
+        with st.chat_message("assistant"):
+            st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
-    st.sidebar.slider("Level of Creativity", 1, 5, key="size") # parameter that controls the randomness or creativity of the generated text.
 
+    # Sidebar
+    if 'creativity' not in st.session_state:
+        st.session_state["creativity"] = 1
+
+    st.session_state["creativity"] = st.sidebar.slider(label="**Creativity**", 
+                                                        min_value=1, max_value= 5, 
+                                                        value=st.session_state["creativity"], 
+                                                        help="This increases creativity of responce but also decreases accuracy")
+
+# History page logic
 def history() -> None:
-    ''' Stuff you see on second page '''
+    ''' Stuff you see on History page '''
     st.header("🕔 History", divider="red")
-    st.subheader(" Second Page ")
+ 
+    # Stores history in History.json file
+    with open('History.json', 'w') as f:
+        json.dump(st.session_state.messages, f)
+
+    retrieved_dict = {}
+    with open('History.json', 'r') as f:
+        retrieved_dict = json.load(f)
+
+    for message in retrieved_dict:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
 
-# Pages. note that function names are passed to st.pages() as first parameter
+# Pages
 main_page = st.Page(ChatBot, title="ChatBot", icon=":material/add_circle:")
 history_page = st.Page(history, title="History", icon=":material/add_circle:")
 pages.extend([main_page, history_page, ])
 
 pg = st.navigation(pages=pages)
 pg.run()
-    
