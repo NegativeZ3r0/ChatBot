@@ -3,7 +3,7 @@ import json
 
 
 st.set_page_config(page_title="ChatBot", page_icon=":material/stars:", layout="centered", initial_sidebar_state="auto")
-# ToDo: st.logo("images/banner.jpg", icon_image="images/logo.png")
+st.logo("images/banner.jpg", link="",icon_image="images/logo.jpg")
 # Help: https://docs.streamlit.io/develop/api-reference/media/st.logo
 pages: list = []
 if "messages" not in st.session_state:
