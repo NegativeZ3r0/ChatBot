@@ -3,7 +3,7 @@ import json
 import os
 
 
-st.set_page_config(page_title="ChatBot", page_icon=":material/stars:", layout="centered", initial_sidebar_state="auto")
+st.set_page_config(page_title="ChatBot", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto")
 st.logo("images/banner.png", icon_image="images/logo.png")
 # docs: https://docs.streamlit.io/develop/api-reference/media/st.logo
 
