@@ -45,7 +45,7 @@ def history() -> None:
     # Sidebar for history page
     if os.path.exists("History.json") and st.sidebar.button("Delete", use_container_width=True):
         os.remove("History.json")
-        
+
     # Display Chat stored in History.json
     if os.path.exists("History.json"):
         with open("History.json", 'r') as f:
