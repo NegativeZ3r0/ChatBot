@@ -3,8 +3,8 @@ import json
 import os
 
 
-st.set_page_config(page_title="ChatBot", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto")
-st.logo("images/banner.png", icon_image="images/logo.png")
+st.set_page_config(page_title="Dororo AI", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto")
+st.logo("images/logo.png", icon_image="images/logo.png")
 # docs: https://docs.streamlit.io/develop/api-reference/media/st.logo
 
 if "messages" not in st.session_state:
@@ -13,7 +13,7 @@ if "messages" not in st.session_state:
 # Main page
 def ChatBot() -> None:
     ''' Stuff you see on Main page '''
-    st.header("✨ Dororo AI", divider="red")
+    st.header("✨ Dororo AI", divider="orange")
     st.subheader(" Ask Dororo AI anything ")
 
     sidebar()
@@ -45,7 +45,7 @@ def history() -> None:
     # Sidebar for history page
     if os.path.exists("History.json") and st.sidebar.button("Delete", use_container_width=True):
         os.remove("History.json")
-
+        
     # Display Chat stored in History.json
     if os.path.exists("History.json"):
         with open("History.json", 'r') as f:
@@ -93,7 +93,7 @@ def storeHistory(user_prompt: str, bot_response: str) -> None:
 
 # Pages
 pages: list = []
-main_page = st.Page(ChatBot, title="ChatBot", icon=":material/add_circle:")
+main_page = st.Page(ChatBot, title="Dororo AI", icon=":material/add_circle:")
 history_page = st.Page(history, title="History", icon=":material/add_circle:")
 pages.extend([main_page, history_page])
 
