@@ -1,14 +1,24 @@
 import streamlit as st
 import json
 import os
+import google.generativeai as genai
 
 
-st.set_page_config(page_title="Dororo AI", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto")
-st.logo("images/logo.png", icon_image="images/logo.png")
-# docs: https://docs.streamlit.io/develop/api-reference/media/st.logo
+st.set_page_config(page_title="Dororo AI", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto") # Srujan choose this "Dororo AI" name
+st.logo("images/banner.png", icon_image="images/logo.png")
+
+GOOGLE_API_KEY = "*****************************" # Replace with Google_Api_Key 
+genai.configure(api_key=GOOGLE_API_KEY)
+geminiModel=genai.GenerativeModel("gemini-1.5-flash") 
+chat = geminiModel.start_chat(history=[])
+
+
+if "history" not in st.session_state:
+    st.session_state.history: list[dict] = []   # List for storing history messages
 
 if "messages" not in st.session_state:
-    st.session_state.messages: list[dict] = []
+    st.session_state.messages: list[dict] = []   # List to store messages for main page
+
 
 # Main page
 def ChatBot() -> None:
@@ -18,45 +28,28 @@ def ChatBot() -> None:
 
     sidebar()
 
-    # Chat
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-    
-    prompt: str = st.chat_input("Message Dodoro...")
-    if prompt:
-        st.chat_message("user").markdown(prompt)
-        st.session_state.messages.append({"role": "user", "content": prompt})
-
-        response: str = "response"
-        with st.chat_message("assistant"):
-            st.markdown(response)
-        st.session_state.messages.append({"role": "assistant", "content": response})
-
-        storeHistory(prompt, response)
-
-
-# History page
-def history() -> None:
-    ''' Stuff you see on History page '''
-    st.header("🕔 History", divider="red")
-    retrieved_list: list[dict]
-
-    # Sidebar for history page
-    if os.path.exists("History.json") and st.sidebar.button("Delete", use_container_width=True):
-        os.remove("History.json")
-        
-    # Display Chat stored in History.json
-    if os.path.exists("History.json"):
-        with open("History.json", 'r') as f:
-            retrieved_list = json.load(f)
-
-        for message in retrieved_list:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
 
-    else:
-        st.subheader("Nothing to show.")
+# how can i display hello world on terminal using rust?
+    # Chat 
+    prompt: str = st.chat_input("Message Dodoro...")
+    if prompt:
+        with st.chat_message("user"):
+            st.markdown(f"You: {prompt}")
+
+        st.session_state.messages.append({"role": "user", "content": f"You: {prompt}"})
+
+        response = chat.send_message(prompt)
+        response = f"Dororo: \n{response.text}"
+
+        with st.chat_message("assistant"):
+            st.markdown(response)
+
+        st.session_state.messages.append({"role": "assistant", "content": response})
+
+        st.session_state.history.extend(st.session_state.messages)
 
 
 def sidebar() -> None:
@@ -73,22 +66,23 @@ def sidebar() -> None:
         st.session_state.messages.clear()
 
 
-def storeHistory(user_prompt: str, bot_response: str) -> None:
-    ''' Function to create and store Chat history in History.json file '''
-    existing_data: list
+# History page
+def history() -> None:
+    ''' Stuff you see on History page '''
+    st.header("🕔 History", divider="red")
 
-    if os.path.exists("History.json"):
-        with open("History.json", 'r') as f:
-            existing_data = json.load(f)
+    # Sidebar for history page
+    if st.sidebar.button("Delete", use_container_width=True):
+        st.session_state.history.clear()
+        st.session_state.messages.clear()
 
-        existing_data.extend([{"role": "user", "content": user_prompt}, {"role": "assistant", "content": bot_response}])
-        json_list = json.dumps(existing_data)
-    
+    if st.session_state.history:
+        # Display Chat stored in st.session_state.history
+        for message in st.session_state.history:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
     else:
-        json_list = json.dumps(st.session_state.messages)
-
-    with open("History.json", 'w') as f:
-        f.write(json_list)
+        st.subheader("Nothing to show.")
 
 
 # Pages
