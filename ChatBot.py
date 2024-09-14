@@ -71,7 +71,11 @@ def ChatBot() -> None:
     sidebar()
 
     for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
+        if message["role"] == "user":
+            with st.chat_message(message["role"], avatar="images/usr_avtr.png"):
+                st.markdown(message["contents"])
+        else:
+            with st.chat_message(message["role"], avatar="images/logo.png"):
                 st.markdown(message["contents"])
 
     # Chat 
@@ -122,9 +126,13 @@ def history() -> None:
 
     if st.session_state.history:
         # Display Chat stored in st.session_state.history
-        for message in st.session_state.history:
-            with st.chat_message(message["role"]):
-                st.markdown(message["contents"])
+        for message in st.session_state.messages:
+            if message["role"] == "user":
+                with st.chat_message(message["role"], avatar="images/usr_avtr.png"):
+                    st.markdown(message["contents"])
+            else:
+                with st.chat_message(message["role"], avatar="images/logo.png"):
+                    st.markdown(message["contents"])
     else:
         st.subheader("Nothing to show.")
 
