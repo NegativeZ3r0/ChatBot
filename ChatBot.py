@@ -82,7 +82,7 @@ def ChatBot() -> None:
     prompt: str = st.chat_input("Message Dodoro...")
     if prompt:
         prompt = f"**You**: {prompt}"
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar="images/usr_avtr.png"):
             st.markdown(prompt)
 
         st.session_state.messages.append({"role": "user", "contents": prompt})
