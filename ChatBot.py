@@ -91,7 +91,7 @@ def ChatBot() -> None:
 
         response = f"**Dororo**: \n{response.text}"
 
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar="images/logo.png"):
             st.markdown(response)
 
         st.session_state.messages.append({"role": "assistant", "contents": response})
