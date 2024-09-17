@@ -7,9 +7,9 @@ import google.generativeai as genai
 st.set_page_config(page_title="Dororo AI", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto") # Srujan choose this "Dororo AI" name
 st.logo("images/banner.png", icon_image="images/logo.png")
 
-GOOGLE_API_KEY = "***********************************" # Replace with Google_Api_Key 
+GOOGLE_API_KEY = "AIzaSyCf0g7qOoeCsRBmFmJ1wdmCCLP-HuqXOJc" # Replace with Google_Api_Key 
 genai.configure(api_key=GOOGLE_API_KEY)
-geminiModel=genai.GenerativeModel("gemini-1.5-flash") 
+geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions.") 
 
 if "history" not in st.session_state:
     st.session_state.history: list[dict] = []   # List for storing history messages
@@ -78,6 +78,7 @@ def ChatBot() -> None:
             with st.chat_message(message["role"], avatar="images/logo.png"):
                 st.markdown(message["contents"])
 
+
     # Chat 
     prompt: str = st.chat_input("Message Dodoro...")
     if prompt:
@@ -89,9 +90,11 @@ def ChatBot() -> None:
 
         response = chat.send_message(prompt, 
                                     generation_config=genai.types.GenerationConfig(
-                                    candidate_count=1,
-                                    temperature=st.session_state.creativity,
-                                    ),)
+                                        candidate_count=1,
+                                        temperature=st.session_state.creativity,
+                                    ), 
+                                    safety_settings="HIGH"
+                                    )
 
         response = f"**Dororo**: \n{response.text}"
 
@@ -114,6 +117,7 @@ def sidebar() -> None:
     if st.sidebar.button("Clear", use_container_width=True):
         st.session_state.messages.clear()
 
+
 # History page
 def history() -> None:
     ''' Stuff you see on History page '''
@@ -126,7 +130,7 @@ def history() -> None:
 
     if st.session_state.history:
         # Display Chat stored in st.session_state.history
-        for message in st.session_state.messages:
+        for message in st.session_state.history:
             if message["role"] == "user":
                 with st.chat_message(message["role"], avatar="images/usr_avtr.png"):
                     st.markdown(message["contents"])
