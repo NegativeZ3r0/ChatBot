@@ -7,7 +7,7 @@ import google.generativeai as genai
 st.set_page_config(page_title="Dororo AI", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto") # Srujan choose this "Dororo AI" name
 st.logo("images/banner.png", icon_image="images/logo.png")
 
-GOOGLE_API_KEY = "AIzaSyCf0g7qOoeCsRBmFmJ1wdmCCLP-HuqXOJc" # Replace with Google_Api_Key 
+GOOGLE_API_KEY = "*************************************" # Replace with Google_Api_Key 
 genai.configure(api_key=GOOGLE_API_KEY)
 geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions.") 
 
@@ -69,7 +69,7 @@ def ChatBot() -> None:
     st.subheader(" Ask Dororo AI anything ")
 
     sidebar()
-
+    
     for message in st.session_state.messages:
         if message["role"] == "user":
             with st.chat_message(message["role"], avatar="images/usr_avtr.png"):
@@ -78,17 +78,15 @@ def ChatBot() -> None:
             with st.chat_message(message["role"], avatar="images/logo.png"):
                 st.markdown(message["contents"])
 
-
     # Chat 
-    prompt: str = st.chat_input("Message Dodoro...")
-    if prompt:
+    if prompt := st.chat_input("Message Dodoro..."):
         prompt = f"**You**: {prompt}"
         with st.chat_message("user", avatar="images/usr_avtr.png"):
             st.markdown(prompt)
 
         st.session_state.messages.append({"role": "user", "contents": prompt})
 
-        response = chat.send_message(prompt, 
+        response: str = chat.send_message(prompt, 
                                     generation_config=genai.types.GenerationConfig(
                                         candidate_count=1,
                                         temperature=st.session_state.creativity,
@@ -110,7 +108,7 @@ def sidebar() -> None:
     ''' Stuff you see in the sidebar on the main page '''
 
     st.session_state.creativity = st.sidebar.slider(label="**Creativity**", 
-                                                    min_value=0.0, max_value= 2.0, step=0.1,
+                                                    min_value=0.0, max_value= 2.0, step=0.01,
                                                     value=float(st.session_state.creativity), 
                                                     help="This increases creativity of responce but also decreases accuracy")
     
