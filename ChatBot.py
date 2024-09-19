@@ -7,9 +7,9 @@ import google.generativeai as genai
 st.set_page_config(page_title="Dororo AI", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto") # Srujan choose this "Dororo AI" name
 st.logo("images/banner.png", icon_image="images/logo.png")
 
-GOOGLE_API_KEY = "*************************************" # Replace with Google_Api_Key 
+GOOGLE_API_KEY = "********************************" # Replace with Google_Api_Key 
 genai.configure(api_key=GOOGLE_API_KEY)
-geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions.") 
+geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions and You like to help others.") 
 
 if "history" not in st.session_state:
     st.session_state.history: list[dict] = []   # List for storing history messages
@@ -62,6 +62,18 @@ def replace_key_in_dict_list(dict_list):
 chat = geminiModel.start_chat(history=replace_key_in_dict_list(st.session_state.messages))
 
 
+def sidebar() -> None:
+    ''' Stuff you see in the sidebar on the main page '''
+
+    st.session_state.creativity = st.sidebar.slider(label="**Creativity**", 
+                                                    min_value=0.0, max_value= 2.0, step=0.01,
+                                                    value=float(st.session_state.creativity), 
+                                                    help="This increases creativity of responce but also decreases accuracy")
+    
+    if st.sidebar.button("Clear", use_container_width=True):
+        st.session_state.messages.clear()
+
+
 # Main page
 def ChatBot() -> None:
     ''' Stuff you see on Main page '''
@@ -102,18 +114,6 @@ def ChatBot() -> None:
         st.session_state.messages.append({"role": "assistant", "contents": response})
 
         st.session_state.history.extend([{"role": "user", "contents": prompt}, {"role": "assistant", "contents": response}])
-
-
-def sidebar() -> None:
-    ''' Stuff you see in the sidebar on the main page '''
-
-    st.session_state.creativity = st.sidebar.slider(label="**Creativity**", 
-                                                    min_value=0.0, max_value= 2.0, step=0.01,
-                                                    value=float(st.session_state.creativity), 
-                                                    help="This increases creativity of responce but also decreases accuracy")
-    
-    if st.sidebar.button("Clear", use_container_width=True):
-        st.session_state.messages.clear()
 
 
 # History page
