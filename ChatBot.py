@@ -1,23 +1,21 @@
 import streamlit as st
-import json
-import os
 import google.generativeai as genai
 
 
 st.set_page_config(page_title="Dororo AI", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto") # Srujan choose this "Dororo AI" name
 st.logo("images/banner.png", icon_image="images/logo.png")
 
-GOOGLE_API_KEY = "********************************" # Replace with Google_Api_Key 
+GOOGLE_API_KEY = "**************************************" # Replace with Google_Api_Key 
 genai.configure(api_key=GOOGLE_API_KEY)
-geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions and You like to help others.") 
+geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions and You like to help others. You don't say your name implicitly.") 
 
 if "history" not in st.session_state:
-    st.session_state.history: list[dict] = []   # List for storing history messages
+    st.session_state.history: list[dict] = []   # List for storing messages for history page
 
 if "messages" not in st.session_state:
     st.session_state.messages: list[dict] = []   # List to store messages for main page
 
-if "creativity" not in st.session_state:
+if "creativity" not in st.session_state:    # Variable to store the temperature value
         st.session_state.creativity = 0
 
 
@@ -59,19 +57,7 @@ def replace_key_in_dict_list(dict_list):
     
     return new_list
 
-chat = geminiModel.start_chat(history=replace_key_in_dict_list(st.session_state.messages))
-
-
-def sidebar() -> None:
-    ''' Stuff you see in the sidebar on the main page '''
-
-    st.session_state.creativity = st.sidebar.slider(label="**Creativity**", 
-                                                    min_value=0.0, max_value= 2.0, step=0.01,
-                                                    value=float(st.session_state.creativity), 
-                                                    help="This increases creativity of responce but also decreases accuracy")
-    
-    if st.sidebar.button("Clear", use_container_width=True):
-        st.session_state.messages.clear()
+chat = geminiModel.start_chat(history=replace_key_in_dict_list(st.session_state.messages)) # All the adjustment with key, value pair it to fit with API's format for "history" dict
 
 
 # Main page
@@ -82,7 +68,7 @@ def ChatBot() -> None:
 
     sidebar()
     
-    for message in st.session_state.messages:
+    for message in st.session_state.messages:   # Showing chat permanetly
         if message["role"] == "user":
             with st.chat_message(message["role"], avatar="images/usr_avtr.png"):
                 st.markdown(message["contents"])
@@ -108,7 +94,7 @@ def ChatBot() -> None:
 
         response = f"**Dororo**: \n{response.text}"
 
-        with st.chat_message("assistant", avatar="images/logo.png"):
+        with st.chat_message("assistant", avatar="images/logo.png"):    # Showing chat initially
             st.markdown(response)
 
         st.session_state.messages.append({"role": "assistant", "contents": response})
@@ -137,6 +123,18 @@ def history() -> None:
                     st.markdown(message["contents"])
     else:
         st.subheader("Nothing to show.")
+
+
+def sidebar() -> None:
+    ''' Stuff you see in the sidebar on the main page '''
+
+    st.session_state.creativity = st.sidebar.slider(label="**Creativity**", 
+                                                    min_value=0.0, max_value= 2.0, step=0.01,
+                                                    value=float(st.session_state.creativity), 
+                                                    help="This increases creativity of responce but also decreases accuracy")
+    
+    if st.sidebar.button("Clear", use_container_width=True):
+        st.session_state.messages.clear()
 
 
 # Pages
