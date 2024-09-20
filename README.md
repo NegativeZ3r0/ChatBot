@@ -3,12 +3,18 @@ Simple Web based ChatBot application written in Python using [Streamlit library]
 
 
 
+## Preview
+![Preview Images](images/thumbnail.png)
+
+
 ## Getting started
 Clone this project locally with this command
 ```
 git clone https://github.com/NegativeZ3r0/ChatBot.git
 ```
 Or Download its source code [here](https://github.com/NegativeZ3r0/ChatBot/archive/refs/heads/main.zip)
+
+
 
 ### Requirements
 Install the required Streamlit packages. To install it run following command.
@@ -28,6 +34,8 @@ pip install -q -U google-generativeai
 
 To use this app, you'll need an API key. If you don't already have one, create a key in [Google AI Studio](https://makersuite.google.com/app/apikey) and paste it in the source code (ChatBot.py file) as value of variable `GOOGLE_API_KEY`
 
+
+
 ### Usage
 You can run the ChatBot.py app with this command
 ```
@@ -37,11 +45,6 @@ it will start the Streamlit server on
 `http://localhost:8501`
 
 Note: above run commands will open a new tab in the default browser
-
-
-
-## Demo
-[![Watch the video](images/thumbnail.png)](images/demo.mp4)
 
 
 
