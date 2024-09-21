@@ -56,6 +56,7 @@ We're incredibly grateful for the contributions of:
 
 * **[Srujan Wankhade](https://github.com/srujanwankhade)** <!-- [Brief description of their contributions] -->
 * **[Konaad](https://github.com/smeet05)** <!-- [Brief description of their contributions] -->
+* **[Aayush Kawale](https://www.linkedin.com/in/ayush-kawale-98243a31b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)** <!-- [Brief description of their contributions] -->
 
 Thanks for making this project amazing!
 
