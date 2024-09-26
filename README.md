@@ -3,8 +3,8 @@ Simple Web based ChatBot application written in Python using [Streamlit library]
 
 
 
-## Preview
-![Preview Images](images/thumbnail.png)
+https://github.com/user-attachments/assets/ca727c8b-035f-4227-bf5f-0ed7c8204f34
+
 
 
 ## Getting started
