@@ -5,9 +5,6 @@ import google.generativeai as genai
 st.set_page_config(page_title="Dororo AI", page_icon="images/logo.png", layout="centered", initial_sidebar_state="auto") # Srujan choose this "Dororo AI" name
 st.logo("images/banner.png", icon_image="images/logo.png")
 
-GOOGLE_API_KEY = "**************************************" # Replace with Google_Api_Key 
-genai.configure(api_key=GOOGLE_API_KEY)
-geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions and You like to help others. You don't say your name implicitly.") 
 
 if "history" not in st.session_state:
     st.session_state.history: list[dict] = []   # List for storing messages for history page
@@ -19,13 +16,14 @@ if "creativity" not in st.session_state:    # Variable to store the temperature 
         st.session_state.creativity = 0
 
 
+@st.cache_data
 def replace_key_in_dict_list(dict_list):
     """
     Takes a list of dictionaries and returns a new list of dictionaries where
-    the key 'contents' is replaced with 'name parts'.
+    the key 'contents' is replaced with 'parts'.
     
     :param dict_list: List of dictionaries, each containing a key 'contents'
-    :return: New list of dictionaries with 'contents' replaced by 'name parts'
+    :return: New list of dictionaries with 'contents' replaced by 'parts'
     """
     # Create a new list to hold the modified dictionaries
     new_list = []
@@ -57,7 +55,26 @@ def replace_key_in_dict_list(dict_list):
     
     return new_list
 
-chat = geminiModel.start_chat(history=replace_key_in_dict_list(st.session_state.messages)) # All the adjustment with key, value pair it to fit with API's format for "history" dict
+
+@st.cache_resource
+def APIfunc():
+    GOOGLE_API_KEY = "AIzaSyCOGoYayd7gXTFSdCztbx8G0XoEvll_Ty8" # Replace with your api key
+    genai.configure(api_key=GOOGLE_API_KEY)
+    geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions and You like to help others. You don't say your name implicitly.") 
+    chatSession = geminiModel.start_chat(history=replace_key_in_dict_list(st.session_state.messages)) # All the adjustment with key, value pair it to fit with API's format for "history" dict
+    return chatSession
+
+
+def sidebar() -> None:
+    ''' Stuff you see in the sidebar of the main page '''
+
+    st.session_state.creativity = st.sidebar.slider(label="**Creativity**", 
+                                                    min_value=0.0, max_value= 2.0, step=0.01,
+                                                    value=float(st.session_state.creativity), 
+                                                    help="This increases creativity of responce but also decreases accuracy")
+    
+    if st.sidebar.button("Clear", use_container_width=True):
+        st.session_state.messages.clear()
 
 
 # Main page
@@ -84,13 +101,16 @@ def ChatBot() -> None:
 
         st.session_state.messages.append({"role": "user", "contents": prompt})
 
-        response: str = chat.send_message(prompt, 
-                                    generation_config=genai.types.GenerationConfig(
-                                        candidate_count=1,
-                                        temperature=st.session_state.creativity,
-                                    ), 
-                                    safety_settings="HIGH"
-                                    )
+        chat = APIfunc()
+
+        response = chat.send_message(
+            prompt, 
+            generation_config=genai.types.GenerationConfig(
+                candidate_count=1,
+                temperature=st.session_state.creativity,
+            ), 
+            safety_settings="HIGH"
+        )
 
         response = f"**Dororo**: \n{response.text}"
 
@@ -105,7 +125,7 @@ def ChatBot() -> None:
 # History page
 def history() -> None:
     ''' Stuff you see on History page '''
-    st.header("🕔 History", divider="red")
+    st.header("🕔 History", divider="orange")
 
     # Sidebar for history page
     if st.sidebar.button("Delete", use_container_width=True):
@@ -118,23 +138,11 @@ def history() -> None:
             if message["role"] == "user":
                 with st.chat_message(message["role"], avatar="images/usr_avtr.png"):
                     st.markdown(message["contents"])
-            else:
+            elif message["role"] == "assistant":
                 with st.chat_message(message["role"], avatar="images/logo.png"):
                     st.markdown(message["contents"])
     else:
         st.subheader("Nothing to show.")
-
-
-def sidebar() -> None:
-    ''' Stuff you see in the sidebar on the main page '''
-
-    st.session_state.creativity = st.sidebar.slider(label="**Creativity**", 
-                                                    min_value=0.0, max_value= 2.0, step=0.01,
-                                                    value=float(st.session_state.creativity), 
-                                                    help="This increases creativity of responce but also decreases accuracy")
-    
-    if st.sidebar.button("Clear", use_container_width=True):
-        st.session_state.messages.clear()
 
 
 # Pages
