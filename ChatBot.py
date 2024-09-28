@@ -60,7 +60,7 @@ def replace_key_in_dict_list(dict_list):
 def APIfunc():
     GOOGLE_API_KEY = "AIzaSyCOGoYayd7gXTFSdCztbx8G0XoEvll_Ty8" # Replace with your api key
     genai.configure(api_key=GOOGLE_API_KEY)
-    geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions and You like to help others. You don't say your name implicitly.") 
+    geminiModel=genai.GenerativeModel("gemini-1.5-flash", system_instruction="Your name is Dororo and Your a teenager with friendly nature. You use modern teenage slang to express your emotions and You like to help others. You will mention your name only when asked.") 
     chatSession = geminiModel.start_chat(history=replace_key_in_dict_list(st.session_state.messages)) # All the adjustment with key, value pair it to fit with API's format for "history" dict
     return chatSession
 
