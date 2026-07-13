@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This was a college miniproject and it's no longer maintained
+
 # ChatBot
 Simple Web based ChatBot application written in Python using [Streamlit library](https://streamlit.io/).
 
